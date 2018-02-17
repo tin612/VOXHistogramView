@@ -5,7 +5,7 @@ Pod::Spec.new do |s|
   s.homepage         = "https://github.com/Coppertino/VOXHistogramView"
   s.license          = 'MIT'
   s.author           = { "Nickolay Sheika" => "hawk.ukr@gmail.com" }
-  s.source           = { :git => "https://github.com/Coppertino/VOXHistogramView.git", :tag => s.version.to_s }
+  s.source           = { :git => "https://github.com/tin612/VOXHistogramView.git", :tag => s.version.to_s }
 
   s.platform     = :ios, '7.1'
   s.requires_arc = true
