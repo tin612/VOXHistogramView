@@ -104,7 +104,7 @@
     CGContextSetLineWidth(context, rect.size.height);
 
     // calculate slider line Y position
-    CGFloat yPosition = rect.size.height / 2;
+    CGFloat yPosition = rect.size.height;
 
     // get current rect width
     CGFloat rectWidth = rect.size.width;

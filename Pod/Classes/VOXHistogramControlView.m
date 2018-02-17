@@ -227,24 +227,45 @@ static NSUInteger const VOXHistogramControlViewDefaultMarginWidth = 1;
 - (void)setupViewsConstraints
 {
     VOXHistogramView *histogramView = self.histogramView;
+    histogramView.translatesAutoresizingMaskIntoConstraints = false;
 
     NSDictionary *histogramBinding = NSDictionaryOfVariableBindings(histogramView);
     [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[histogramView]|"
                                                                  options:0
                                                                  metrics:nil
                                                                    views:histogramBinding]];
+    
+    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[histogramView]|"
+                                                                 options:0
+                                                                 metrics:nil
+                                                                   views:histogramBinding]];
+    
+    
+//    NSString *format =  [NSString stringWithFormat:@"V:[histogramView(%f)]",
+//                                                                             self.histogramHeight];
+//    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:format
+//                                                                 options:0
+//                                                                 metrics:nil
+//                                                                   views:histogramBinding]];
 
     if (self.slider) {
         VOXProgressLineView *slider = self.slider;
-        [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[slider]|"
-                                                                     options:0
-                                                                     metrics:nil
-                                                                       views:NSDictionaryOfVariableBindings(slider)]];
-        NSString *format = [NSString stringWithFormat:@"V:[histogramView(%f)][slider(%f)]|", self.histogramHeight, self.sliderHeight];
-        [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:format
-                                                                     options:0
-                                                                     metrics:nil
-                                                                       views:NSDictionaryOfVariableBindings(histogramView, slider)]];
+        slider.translatesAutoresizingMaskIntoConstraints = false;
+      
+        
+        
+        [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[slider]-0-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(slider)]];
+        [self addConstraints:[
+            NSLayoutConstraint constraintsWithVisualFormat:@"H:[self]-(<=1)-[slider]" options:NSLayoutFormatAlignAllCenterY metrics:nil views:NSDictionaryOfVariableBindings(self, slider)
+         ]];
+         NSString *format = [NSString stringWithFormat:@"V:[slider(%f)]", self.sliderHeight];
+ 
+        [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:format options:0 metrics:nil views:NSDictionaryOfVariableBindings(slider)]];
+        
+        
+
+//        [self addConstraints:[
+//                              NSLayoutConstraint constraintsWithVisualFormat:@"V:[histogramView]" options:NSLayoutFormatAlignAllTop | NSLayoutFormatAlignAllBottom metrics:nil views:NSDictionaryOfVariableBindings(histogramView)]];
     }
     else {
         NSString *format = self.histogramHeight == 0 ? @"V:|[histogramView]|" : [NSString stringWithFormat:@"V:[histogramView(%f)]|",

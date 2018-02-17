@@ -39,6 +39,10 @@
 @property(nonatomic, weak) UIImageView *notCompleteImageView;
 @property(nonatomic, weak) UIImageView *downloadedImageView;
 
+
+@property(nonatomic, weak) UIImageView *completeImageView1;
+@property(nonatomic, weak) UIImageView *notCompleteImageView1;
+@property(nonatomic, weak) UIImageView *downloadedImageView1;
 @end
 
 
@@ -52,18 +56,23 @@
 {
     _completeColor = completeColor;
     self.completeImageView.tintColor = completeColor;
+  //  self.progressPlayView.tintColor = completeColor;
+    self.completeImageView1.tintColor = completeColor ;
 }
 
 - (void)setNotCompleteColor:(UIColor *)notCompleteColor
 {
     _notCompleteColor = notCompleteColor;
     self.notCompleteImageView.tintColor = notCompleteColor;
+    self.notCompleteImageView1.tintColor = notCompleteColor ;
 }
 
 - (void)setDownloadedColor:(UIColor *)downloadedColor
 {
     _downloadedColor = downloadedColor;
     self.downloadedImageView.tintColor = downloadedColor;
+   // self.notCompletedProgressPlayView.tintColor = downloadedColor;
+    self.downloadedImageView1.tintColor = downloadedColor;
 }
 
 #pragma mark - Init
@@ -96,23 +105,63 @@
 - (void)layoutSubviews
 {
     [super layoutSubviews];
-
+    
+    CGRect newFrame = self.bounds;
+    newFrame.origin.y += self.bounds.size.height / 2 ;
+    
+    CGRect newFrame1 = self.bounds;
+    newFrame1.origin.y += self.bounds.size.height / 2 + 2 ;
+   
     self.notCompleteImageView.frame = self.bounds;
+    self.notCompleteImageView.height = self.bounds.size.height / 2 ;
+    self.notCompleteImageView1.frame = newFrame1;
+    self.notCompleteImageView1.height = self.bounds.size.height / 2 - 2.0;
+    
     self.downloadedImageView.frame = self.bounds;
+    self.downloadedImageView.height = self.bounds.size.height / 2 ;
+    self.downloadedImageView1.frame = newFrame1;
+     self.downloadedImageView1.height = self.bounds.size.height / 2 - 2.0;
+  
+    
     self.completeImageView.frame = self.bounds;
+    self.completeImageView.height = self.bounds.size.height / 2;
+    self.completeImageView1.frame = newFrame1;
+    self.completeImageView1.height = self.bounds.size.height / 2 - 2.0;
+    
+//    self.progressPlayView.frame =  newFrame;
+//    self.progressPlayView.height = 4.0;
+//
+//    self.notCompletedProgressPlayView.frame = newFrame;
+//    self.notCompletedProgressPlayView.height = 4.0;
+//
 
     CGFloat currentWidth = CGRectGetWidth(self.bounds);
     self.completeImageView.width = currentWidth * self.playbackProgress;
+    self.completeImageView1.width = currentWidth * self.playbackProgress;
+    
     self.downloadedImageView.width = currentWidth * self.downloadProgress;
+    self.downloadedImageView1.width = currentWidth * self.downloadProgress;
+    
+//    self.progressPlayView.width = currentWidth * self.playbackProgress;
+//    self.notCompletedProgressPlayView.width = currentWidth * self.downloadProgress;
+    
+    
 }
 
 #pragma mark - Setup
 
 - (void)setup
 {
+    self.notCompleteImageView1 = [self _buildImageView];
+    self.downloadedImageView1 = [self _buildImageView];
+    self.completeImageView1 = [self _buildImageView];
+    
     self.notCompleteImageView = [self _buildImageView];
     self.downloadedImageView = [self _buildImageView];
     self.completeImageView = [self _buildImageView];
+    
+ 
+    
 }
 
 - (UIImageView *)_buildImageView
@@ -126,32 +175,43 @@
 
 #pragma mark - Accessors
 
+
 - (void)setImage:(UIImage *)image
 {
     if ([_image isEqual:image])
         return;
-
+    
     _image = image;
-
-    self.completeImageView.image = image;
-    self.notCompleteImageView.image = image;
-    self.downloadedImageView.image = image;
-
+    
+    self.completeImageView.image = _image;
+    self.notCompleteImageView.image = _image;
+    self.downloadedImageView.image = _image;
+//    
+    UIImage *image2 = [UIImage imageWithCGImage:image.CGImage scale:image.scale orientation: UIImageOrientationDownMirrored];
+    
+    image2 = [image2 imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+//
+    self.completeImageView1.image = image2;
+    self.notCompleteImageView1.image = image2;
+    self.downloadedImageView1.image = image2;
+    
+   
     [self setNeedsLayout];
 }
-
 #pragma mark - Public
 
 - (void)updatePlaybackProgress:(CGFloat)playbackProgress
 {
     self.playbackProgress = [self _normalizedValue:playbackProgress];
     [self setNeedsLayout];
+    [self layoutIfNeeded];
 }
 
 - (void)updateDownloadProgress:(CGFloat)downloadProgress
 {
     self.downloadProgress = [self _normalizedDownloadProgressValue:downloadProgress];
     [self setNeedsLayout];
+     [self layoutIfNeeded];
 }
 
 #pragma mark - Helpers

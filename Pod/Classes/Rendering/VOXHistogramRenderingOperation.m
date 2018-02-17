@@ -111,9 +111,11 @@
                            andWidth:[self lineMinimumWidth]
                            andLevel:levelFloat
                            andColor:lineColor];
+            
         }
     }];
-
+    
+  
     /* Check operation is cancelled */
     if ([self isCancelled]) {
         /* Context clean up */
@@ -161,7 +163,21 @@
 
     // draw stroke
     CGContextStrokePath(context);
+//
+//    // start to draw line at bottom point
+//    CGContextMoveToPoint(context, leftOffset, rectHeight);
+//
+//    // calculating line height for level
+//    CGFloat lineHeight1 = floorf(level * rectHeight);
+//
+//    // drawing line with calculated height
+//    CGContextAddLineToPoint(context, leftOffset, rectHeight - lineHeight1);
+//
+//    // draw stroke
+//    CGContextStrokePath(context);
 }
+
+
 
 #pragma mark - Helpers
 
