@@ -57,7 +57,7 @@
     _completeColor = completeColor;
     self.completeImageView.tintColor = completeColor;
     //  self.progressPlayView.tintColor = completeColor;
-    self.completeImageView1.tintColor = [completeColor colorWithAlphaComponent:0.75];
+    self.completeImageView1.tintColor = [completeColor colorWithAlphaComponent:0.7];
     
 }
 
@@ -65,7 +65,7 @@
 {
     _notCompleteColor = notCompleteColor;
     self.notCompleteImageView.tintColor = notCompleteColor;
-    self.notCompleteImageView1.tintColor = [notCompleteColor colorWithAlphaComponent:0.35];
+    self.notCompleteImageView1.tintColor = [notCompleteColor colorWithAlphaComponent:0.5];
     
 }
 
@@ -74,7 +74,7 @@
     _downloadedColor = downloadedColor;
     self.downloadedImageView.tintColor = downloadedColor;
     // self.notCompletedProgressPlayView.tintColor = downloadedColor;
-    self.downloadedImageView1.tintColor = [downloadedColor colorWithAlphaComponent:0.35];
+    self.downloadedImageView1.tintColor = [downloadedColor colorWithAlphaComponent:0.5];
 }
 
 #pragma mark - Init
@@ -129,7 +129,6 @@
     self.completeImageView.height = self.bounds.size.height / 2;
     self.completeImageView1.frame = newFrame1;
     self.completeImageView1.height = self.bounds.size.height / 2 - 2.0;
-    
     
     
     CGFloat currentWidth = CGRectGetWidth(self.bounds);
@@ -220,4 +219,3 @@
 }
 
 @end
-
