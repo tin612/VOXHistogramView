@@ -56,23 +56,25 @@
 {
     _completeColor = completeColor;
     self.completeImageView.tintColor = completeColor;
-  //  self.progressPlayView.tintColor = completeColor;
-    self.completeImageView1.tintColor = completeColor ;
+    //  self.progressPlayView.tintColor = completeColor;
+    self.completeImageView1.tintColor = [completeColor colorWithAlphaComponent:0.75];
+    
 }
 
 - (void)setNotCompleteColor:(UIColor *)notCompleteColor
 {
     _notCompleteColor = notCompleteColor;
     self.notCompleteImageView.tintColor = notCompleteColor;
-    self.notCompleteImageView1.tintColor = notCompleteColor ;
+    self.notCompleteImageView1.tintColor = [notCompleteColor colorWithAlphaComponent:0.35];
+    
 }
 
 - (void)setDownloadedColor:(UIColor *)downloadedColor
 {
     _downloadedColor = downloadedColor;
     self.downloadedImageView.tintColor = downloadedColor;
-   // self.notCompletedProgressPlayView.tintColor = downloadedColor;
-    self.downloadedImageView1.tintColor = downloadedColor;
+    // self.notCompletedProgressPlayView.tintColor = downloadedColor;
+    self.downloadedImageView1.tintColor = [downloadedColor colorWithAlphaComponent:0.35];
 }
 
 #pragma mark - Init
@@ -111,7 +113,7 @@
     
     CGRect newFrame1 = self.bounds;
     newFrame1.origin.y += self.bounds.size.height / 2 + 2 ;
-   
+    
     self.notCompleteImageView.frame = self.bounds;
     self.notCompleteImageView.height = self.bounds.size.height / 2 ;
     self.notCompleteImageView1.frame = newFrame1;
@@ -120,31 +122,22 @@
     self.downloadedImageView.frame = self.bounds;
     self.downloadedImageView.height = self.bounds.size.height / 2 ;
     self.downloadedImageView1.frame = newFrame1;
-     self.downloadedImageView1.height = self.bounds.size.height / 2 - 2.0;
-  
+    self.downloadedImageView1.height = self.bounds.size.height / 2 - 2.0;
+    
     
     self.completeImageView.frame = self.bounds;
     self.completeImageView.height = self.bounds.size.height / 2;
     self.completeImageView1.frame = newFrame1;
     self.completeImageView1.height = self.bounds.size.height / 2 - 2.0;
     
-//    self.progressPlayView.frame =  newFrame;
-//    self.progressPlayView.height = 4.0;
-//
-//    self.notCompletedProgressPlayView.frame = newFrame;
-//    self.notCompletedProgressPlayView.height = 4.0;
-//
-
+    
+    
     CGFloat currentWidth = CGRectGetWidth(self.bounds);
     self.completeImageView.width = currentWidth * self.playbackProgress;
     self.completeImageView1.width = currentWidth * self.playbackProgress;
     
     self.downloadedImageView.width = currentWidth * self.downloadProgress;
     self.downloadedImageView1.width = currentWidth * self.downloadProgress;
-    
-//    self.progressPlayView.width = currentWidth * self.playbackProgress;
-//    self.notCompletedProgressPlayView.width = currentWidth * self.downloadProgress;
-    
     
 }
 
@@ -160,7 +153,7 @@
     self.downloadedImageView = [self _buildImageView];
     self.completeImageView = [self _buildImageView];
     
- 
+    
     
 }
 
@@ -179,23 +172,23 @@
 - (void)setImage:(UIImage *)image
 {
     if ([_image isEqual:image])
-        return;
+    return;
     
     _image = image;
     
     self.completeImageView.image = _image;
     self.notCompleteImageView.image = _image;
     self.downloadedImageView.image = _image;
-//    
+    //
     UIImage *image2 = [UIImage imageWithCGImage:image.CGImage scale:image.scale orientation: UIImageOrientationDownMirrored];
     
     image2 = [image2 imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-//
+    //
     self.completeImageView1.image = image2;
     self.notCompleteImageView1.image = image2;
     self.downloadedImageView1.image = image2;
     
-   
+    
     [self setNeedsLayout];
 }
 #pragma mark - Public
@@ -211,7 +204,7 @@
 {
     self.downloadProgress = [self _normalizedDownloadProgressValue:downloadProgress];
     [self setNeedsLayout];
-     [self layoutIfNeeded];
+    [self layoutIfNeeded];
 }
 
 #pragma mark - Helpers
@@ -227,3 +220,4 @@
 }
 
 @end
+
