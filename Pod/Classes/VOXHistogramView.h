@@ -42,6 +42,9 @@
 */
 @property(nonatomic, strong) UIImage *image;
 
+@property(nonatomic, assign, readwrite) BOOL forPlayer;
+
+
 /**
 *   Update current playback progress from 0.0f to 1.0f
 */

@@ -123,6 +123,8 @@ didFinishTrackingWithProgress:(CGFloat)progress;
 @property(nonatomic, strong) IBInspectable UIColor *notCompleteColor;
 @property(nonatomic, strong) IBInspectable UIColor *downloadedColor;
 
+
+
 /**
 *   Width of one peak in pixels (not points!)
 */
@@ -154,6 +156,8 @@ didFinishTrackingWithProgress:(CGFloat)progress;
 *   @default YES
 */
 @property(nonatomic, assign, readonly) IBInspectable BOOL useScrubbing;
+
+@property(nonatomic, assign, readonly) IBInspectable BOOL forPlayer;
 
 
 #pragma mark - Setup
