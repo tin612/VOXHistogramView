@@ -157,7 +157,7 @@ didFinishTrackingWithProgress:(CGFloat)progress;
 */
 @property(nonatomic, assign, readonly) IBInspectable BOOL useScrubbing;
 
-@property(nonatomic, assign, readonly) IBInspectable BOOL forPlayer;
+@property(nonatomic, assign, readwrite) IBInspectable BOOL forPlayer;
 
 
 #pragma mark - Setup

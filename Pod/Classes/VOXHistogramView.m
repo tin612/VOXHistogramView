@@ -56,7 +56,6 @@
 {
     _completeColor = completeColor;
     self.completeImageView.tintColor = completeColor;
-  //  self.progressPlayView.tintColor = completeColor;
     self.completeImageView1.tintColor = [completeColor colorWithAlphaComponent:0.7];
     
 }
@@ -73,7 +72,6 @@
 {
     _downloadedColor = downloadedColor;
     self.downloadedImageView.tintColor = downloadedColor;
-   // self.notCompletedProgressPlayView.tintColor = downloadedColor;
     self.downloadedImageView1.tintColor = [downloadedColor colorWithAlphaComponent:0.5];
 }
 
@@ -107,39 +105,42 @@
 - (void)layoutSubviews
 {
     [super layoutSubviews];
-    CGFloat offSet = 0.0;
-    if (_forPlayer == YES) {
-        offSet = 2.0;
-    }
-    CGRect newFrame = self.bounds;
-    newFrame.origin.y += self.bounds.size.height / 2 ;
     
-    CGRect newFrame1 = self.bounds;
-    newFrame1.origin.y += self.bounds.size.height / 2 + offSet ;
-   
     self.notCompleteImageView.frame = self.bounds;
-    self.notCompleteImageView.height = self.bounds.size.height / 2 ;
-    self.notCompleteImageView1.frame = newFrame1;
-    self.notCompleteImageView1.height = self.bounds.size.height / 2 - offSet;
-    
+
     self.downloadedImageView.frame = self.bounds;
-    self.downloadedImageView.height = self.bounds.size.height / 2 ;
-    self.downloadedImageView1.frame = newFrame1;
-     self.downloadedImageView1.height = self.bounds.size.height / 2 - offSet;
-  
-    
+
     self.completeImageView.frame = self.bounds;
-    self.completeImageView.height = self.bounds.size.height / 2;
-    self.completeImageView1.frame = newFrame1;
-    self.completeImageView1.height = self.bounds.size.height / 2 - offSet;
-    
 
     CGFloat currentWidth = CGRectGetWidth(self.bounds);
     self.completeImageView.width = currentWidth * self.playbackProgress;
-    self.completeImageView1.width = currentWidth * self.playbackProgress;
-    
     self.downloadedImageView.width = currentWidth * self.downloadProgress;
-    self.downloadedImageView1.width = currentWidth * self.downloadProgress;
+    
+    if (_forPlayer == YES) {
+        CGFloat offSet = self.sliderHeight;
+        CGRect newFrame1 = self.bounds;
+        newFrame1.origin.y += self.bounds.size.height / 2 + offSet / 2 ;
+        
+        self.notCompleteImageView.height = self.bounds.size.height / 2;
+        
+        self.downloadedImageView.height = self.bounds.size.height / 2;
+        
+        self.completeImageView.height = self.bounds.size.height / 2;
+        
+        self.notCompleteImageView1.frame = newFrame1;
+        self.notCompleteImageView1.height = self.bounds.size.height / 2 - offSet / 2;
+        
+        self.downloadedImageView1.frame = newFrame1;
+        self.downloadedImageView1.height = self.bounds.size.height / 2 - offSet / 2;
+        
+        self.completeImageView1.frame = newFrame1;
+        self.completeImageView1.height = self.bounds.size.height / 2 - offSet / 2;
+        
+        self.completeImageView1.width = currentWidth * self.playbackProgress;
+        self.downloadedImageView1.width = currentWidth * self.downloadProgress;
+    }
+    
+    
 
 }
 
@@ -155,7 +156,7 @@
     self.downloadedImageView = [self _buildImageView];
     self.completeImageView = [self _buildImageView];
     
- 
+   
     
 }
 
@@ -169,26 +170,66 @@
 }
 
 #pragma mark - Accessors
-
-
+-(UIImage *)drawRectangleOnImage:(UIImage *)img rect:(CGRect )rect{
+    CGSize imgSize = img.size;
+    UIGraphicsBeginImageContextWithOptions(imgSize, NO, img.scale);
+    [img drawAtPoint:CGPointZero];
+    [[UIColor clearColor] setFill];
+    UIRectFill(rect);
+    UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return newImage;
+}
 - (void)setImage:(UIImage *)image
 {
     if ([_image isEqual:image])
         return;
     
-    _image = image;
+    UIImage *image1 = image;
+    image1 = [image1 imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+  
     
-    self.completeImageView.image = _image;
-    self.notCompleteImageView.image = _image;
-    self.downloadedImageView.image = _image;
-//    
     UIImage *image2 = [UIImage imageWithCGImage:image.CGImage scale:image.scale orientation: UIImageOrientationDownMirrored];
     
     image2 = [image2 imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-//
-    self.completeImageView1.image = image2;
-    self.notCompleteImageView1.image = image2;
-    self.downloadedImageView1.image = image2;
+    
+    if (_forPlayer == NO) {
+        CGFloat offSet = self.sliderHeight;
+        UIImage *image1WithLine = [self drawRectangleOnImage:image1 rect:CGRectMake(0, self.bounds.size.height / 2, self.bounds.size.width, offSet)];
+        
+        
+        CGSize size = CGSizeMake(image1WithLine.size.width, image1WithLine.size.height + image2.size.height);
+        
+        UIGraphicsBeginImageContext(size);
+        
+        [image1 drawInRect:CGRectMake(0,0,size.width, image1WithLine.size.height)];
+        [image2 drawInRect:CGRectMake(0,image1WithLine.size.height,size.width, image2.size.height)];
+        
+        UIImage *finalImage = UIGraphicsGetImageFromCurrentImageContext();
+        
+        UIGraphicsEndImageContext();
+        
+        finalImage = [finalImage imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+        
+        
+        _image = finalImage;
+        self.completeImageView.image = _image;
+        self.notCompleteImageView.image = _image;
+        self.downloadedImageView.image = _image;
+    }
+    
+    else {
+        _image = image;
+        
+        self.completeImageView.image = _image;
+        self.notCompleteImageView.image = _image;
+        self.downloadedImageView.image = _image;
+        self.completeImageView1.image = image2;
+        self.notCompleteImageView1.image = image2;
+        self.downloadedImageView1.image = image2;
+    }
+    
+   
     
    
     [self setNeedsLayout];

@@ -44,6 +44,7 @@
 
 @property(nonatomic, assign, readwrite) BOOL forPlayer;
 
+@property(nonatomic, assign) CGFloat sliderHeight;
 
 /**
 *   Update current playback progress from 0.0f to 1.0f
