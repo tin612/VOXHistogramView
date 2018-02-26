@@ -180,6 +180,17 @@
     UIGraphicsEndImageContext();
     return newImage;
 }
+
+- (UIImage *)imageWithImage:(UIImage *)image scaledToSize:(CGSize)newSize
+{
+    UIGraphicsBeginImageContext(newSize);
+    [image drawInRect:CGRectMake(0, 0, newSize.width, newSize.height)];
+    UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return newImage;
+}
+
+
 - (void)setImage:(UIImage *)image
 {
     if ([_image isEqual:image])
@@ -209,9 +220,10 @@
         
         UIGraphicsEndImageContext();
         
+       
+        
+        finalImage = [self imageWithImage:finalImage scaledToSize:CGSizeMake(self.bounds.size.width, self.bounds.size.height)];
         finalImage = [finalImage imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-        
-        
         _image = finalImage;
         self.completeImageView.image = _image;
         self.notCompleteImageView.image = _image;

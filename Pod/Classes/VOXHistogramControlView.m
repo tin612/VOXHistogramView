@@ -152,7 +152,7 @@ static NSUInteger const VOXHistogramControlViewDefaultMarginWidth = 1;
     self = [super initWithFrame:frame];
     if (self) {
         [self setupHistogramView];
-        [self setupDefaults];
+       [self setupDefaults];
         [self setup];
     }
     return self;
@@ -223,8 +223,6 @@ static NSUInteger const VOXHistogramControlViewDefaultMarginWidth = 1;
 
 - (void)setupSliderIfNeeded
 {
-    self.histogramView.forPlayer = _forPlayer;
-    self.histogramView.sliderHeight = _sliderHeight;
     if (self.sliderHeight > 0) {
         VOXProgressLineView *slider = [VOXProgressLineView autolayoutView];
         [self addSubview:slider];
@@ -412,6 +410,9 @@ static NSUInteger const VOXHistogramControlViewDefaultMarginWidth = 1;
 
 - (void)_renderHistogram
 {
+    
+    self.histogramView.forPlayer = _forPlayer;
+    self.histogramView.sliderHeight = _sliderHeight;
     /* Cancel previous rendering */
     if (self.histogramRenderer) {
         [self.histogramRenderer cancelCurrentRendering];
